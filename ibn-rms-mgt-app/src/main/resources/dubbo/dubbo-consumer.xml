@@ -8,7 +8,7 @@
     <dubbo:application name="ibn-rms-mgt-app"  />
 
     <!-- 使用zookeeper注册中心暴露发现服务地址 -->
-    <dubbo:registry address="zookeeper://192.167.12.238:2181" timeout="30000"/>
+    <dubbo:registry address="zookeeper://192.168.0.238:2181" timeout="30000"/>
 
     <!-- 生成远程服务代理，可以和本地bean一样使用 -->
     <dubbo:reference id="userBaseService" interface="com.ibn.rms.service.UserBaseService" />

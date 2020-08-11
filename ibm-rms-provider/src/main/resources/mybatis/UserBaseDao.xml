@@ -94,7 +94,6 @@
 		delete from user_base where id = #{value}
 	</delete>
 
-
     <delete id="removeBatch">
         delete from user_base where id in
         <foreach item="id" collection="collection" open="(" separator="," close=")">

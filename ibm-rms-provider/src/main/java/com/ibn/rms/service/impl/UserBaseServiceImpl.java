@@ -8,8 +8,6 @@ import com.ibn.page.Pagination;
 import com.ibn.rms.dao.UserBaseDao;
 import com.ibn.rms.domain.UserBaseDTO;
 import com.ibn.rms.entity.UserBaseDO;
-import com.ibn.rms.enumer.ExceptionEnum;
-import com.ibn.rms.exception.IbnException;
 import com.ibn.rms.service.UserBaseService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +20,11 @@ import java.util.stream.Collectors;
 
 /**
  * @version 1.0
- * @description:
+ * @description: 用户基本信息表 service实现
  * @projectName：ibn-rms
  * @see: com.ibn.rms.service.impl
  * @author： RenBin
- * @createTime：2020/8/10 10:01
+ * @createTime：2020/8/11 21:45
  */
 @Service("userBaseService")
 public class UserBaseServiceImpl implements UserBaseService {
@@ -34,10 +32,7 @@ public class UserBaseServiceImpl implements UserBaseService {
     private UserBaseDao userBaseDao;
 
     @Override
-    public long save(UserBaseDTO userBaseDTO) throws IbnException {
-        if (null == userBaseDTO) {
-            throw new IbnException(ExceptionEnum.NUll_PARAM);
-        }
+    public long save(UserBaseDTO userBaseDTO) {
         UserBaseDO userBaseDO = new UserBaseDO();
         BeanUtils.copyProperties(userBaseDTO, userBaseDO);
         userBaseDao.save(userBaseDO);
@@ -45,10 +40,7 @@ public class UserBaseServiceImpl implements UserBaseService {
     }
 
     @Override
-    public long saveBatch(List<UserBaseDTO> userBaseDTOList) throws IbnException {
-        if (CollectionUtils.isEmpty(userBaseDTOList)) {
-            throw new IbnException(ExceptionEnum.NUll_PARAM);
-        }
+    public long saveBatch(List<UserBaseDTO> userBaseDTOList) {
         List<UserBaseDO> userBaseDOList = userBaseDTOList.stream().map(userBaseDTO -> {
             UserBaseDO userBaseDO = new UserBaseDO();
             BeanUtils.copyProperties(userBaseDTO, userBaseDO);
@@ -58,36 +50,24 @@ public class UserBaseServiceImpl implements UserBaseService {
     }
 
     @Override
-    public int remove(Long id) throws IbnException {
-        if (null == id) {
-            throw new IbnException(ExceptionEnum.NUll_PARAM);
-        }
+    public int remove(Long id) {
         return userBaseDao.remove(id);
     }
 
     @Override
-    public int removeBatch(Set<Long> idSet) throws IbnException {
-        if (CollectionUtils.isEmpty(idSet)) {
-            throw new IbnException(ExceptionEnum.NUll_PARAM);
-        }
+    public int removeBatch(Set<Long> idSet) {
         return userBaseDao.removeBatch(idSet);
     }
 
     @Override
-    public int modify(UserBaseDTO userBaseDTO) throws IbnException {
-        if (null == userBaseDTO || null == userBaseDTO.getId()) {
-            throw new IbnException(ExceptionEnum.NUll_PARAM);
-        }
+    public int modify(UserBaseDTO userBaseDTO) {
         UserBaseDO userBaseDO = new UserBaseDO();
         BeanUtils.copyProperties(userBaseDTO, userBaseDO);
         return userBaseDao.modify(userBaseDO);
     }
 
     @Override
-    public UserBaseDTO query(Long id) throws IbnException {
-        if (null == id) {
-            throw new IbnException(ExceptionEnum.NUll_PARAM);
-        }
+    public UserBaseDTO query(Long id) {
         UserBaseDO userBaseResultDO = userBaseDao.query(id);
         if (null == userBaseResultDO) {
             return null;
@@ -98,10 +78,7 @@ public class UserBaseServiceImpl implements UserBaseService {
     }
 
     @Override
-    public List<UserBaseDTO> queryList(UserBaseDTO userBaseDTO) throws IbnException {
-        if (null == userBaseDTO) {
-            throw new IbnException(ExceptionEnum.NUll_PARAM);
-        }
+    public List<UserBaseDTO> queryList(UserBaseDTO userBaseDTO) {
         UserBaseDO userBaseDO = new UserBaseDO();
         BeanUtils.copyProperties(userBaseDTO, userBaseDO);
         List<UserBaseDO> userBaseDOList = userBaseDao.queryList(userBaseDO);
@@ -117,10 +94,7 @@ public class UserBaseServiceImpl implements UserBaseService {
     }
 
     @Override
-    public Pagination<UserBaseDTO> queryPage(UserBaseDTO userBaseDTO, PageInfo pageInfo) throws IbnException {
-        if (null == pageInfo || null == userBaseDTO) {
-            throw new IbnException(ExceptionEnum.NUll_PARAM);
-        }
+    public Pagination<UserBaseDTO> queryPage(UserBaseDTO userBaseDTO, PageInfo pageInfo) {
         PageHelper.startPage(pageInfo.getPageNum(), pageInfo.getPageSize());
         UserBaseDO userBaseDO = new UserBaseDO();
         BeanUtils.copyProperties(userBaseDTO, userBaseDO);

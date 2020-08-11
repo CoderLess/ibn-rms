@@ -1,4 +1,4 @@
-package com.ibn.rms.domain;
+package com.ibn.domain;
 
 import java.io.Serializable;
 

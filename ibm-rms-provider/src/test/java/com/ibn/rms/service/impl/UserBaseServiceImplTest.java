@@ -1,7 +1,6 @@
 package com.ibn.rms.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
-import com.github.pagehelper.Page;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.ibn.page.PageInfo;
@@ -17,6 +16,14 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * @version 1.0
+ * @description: 用户基本信息表 测试类
+ * @projectName：ibn-rms
+ * @see: com.ibn.rms.service.impl
+ * @author： RenBin
+ * @createTime：2020/8/11 21:45
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class UserBaseServiceImplTest {
@@ -28,8 +35,8 @@ public class UserBaseServiceImplTest {
     public void save() throws Exception{
         UserBaseDTO userBaseDTO = new UserBaseDTO();
         userBaseDTO.setUserId (0L);
-        userBaseDTO.setUsername ("2Username");
-        userBaseDTO.setPassword ("1Password");
+        userBaseDTO.setUsername ("Username");
+        userBaseDTO.setPassword ("Password");
         userBaseDTO.setRegType (1);
         userBaseDTO.setRegTime (0L);
         userBaseDTO.setLastLoginTime (0L);
@@ -44,7 +51,7 @@ public class UserBaseServiceImplTest {
             userBaseDTO= new UserBaseDTO();
             userBaseDTO.setUserId (0L);
             userBaseDTO.setUsername ("Username"+i);
-            userBaseDTO.setPassword ("Password");
+            userBaseDTO.setPassword ("Password"+i);
             userBaseDTO.setRegType (1);
             userBaseDTO.setRegTime (0L);
             userBaseDTO.setLastLoginTime (0L);
@@ -64,7 +71,7 @@ public class UserBaseServiceImplTest {
         userBaseDTO.setRegTime (2L);
         userBaseDTO.setLastLoginTime (2L);
 
-        userBaseDTO.setId (13L);
+        userBaseDTO.setId (10L);
         userBaseService.modify(userBaseDTO);
     }
 
@@ -76,7 +83,7 @@ public class UserBaseServiceImplTest {
     @Test
     public void removeBatch() throws Exception{
         Set<Long> idset = Sets.newHashSet();
-        for (Long i = 12L; i < 16L; i++) {
+        for (Long i = 2L; i < 6L; i++) {
             idset.add(i);
         }
         userBaseService.removeBatch(idset);
@@ -84,7 +91,7 @@ public class UserBaseServiceImplTest {
 
     @Test
     public void query() throws Exception{
-        UserBaseDTO userBaseDTO = userBaseService.query(16L);
+        UserBaseDTO userBaseDTO = userBaseService.query(6L);
         System.out.println(JSONObject.toJSONString(userBaseDTO));
     }
 
@@ -94,7 +101,7 @@ public class UserBaseServiceImplTest {
         PageInfo pageInfo = new PageInfo();
         pageInfo.setPageNum(1);
         pageInfo.setPageSize(5);
-        Pagination<UserBaseDTO> userBaseDTOPagination = userBaseService.queryPage(userBaseDTO, pageInfo);
+        Pagination userBaseDTOPagination = userBaseService.queryPage(userBaseDTO, pageInfo);
         System.out.println(JSONObject.toJSONString(userBaseDTOPagination));
     }
 
@@ -103,5 +110,17 @@ public class UserBaseServiceImplTest {
         UserBaseDTO userBaseDTO = new UserBaseDTO();
         List<UserBaseDTO> userBaseDTOList = userBaseService.queryList(userBaseDTO);
         System.out.println(JSONObject.toJSONString(userBaseDTOList));
+    }
+
+    @Test
+    public void testAll() throws Exception {
+        this.save();
+        this.saveBatch();
+        this.modify();
+        this.remove();
+        this.removeBatch();
+        this.query();
+        this.queryPage();
+        this.queryList();
     }
 }

@@ -1,4 +1,4 @@
-package com.ibn.rms.dao;
+package com.ibn.dao;
 
 import com.github.pagehelper.Page;
 

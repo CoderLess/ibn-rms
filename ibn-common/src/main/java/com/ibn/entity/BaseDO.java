@@ -1,4 +1,4 @@
-package com.ibn.rms.entity;
+package com.ibn.entity;
 
 import java.io.Serializable;
 
