@@ -1,6 +1,8 @@
-package com.ibn.rms.page;
+package com.ibn.page;
 
 import lombok.Data;
+
+import java.io.Serializable;
 
 /**
  * @version 1.0
@@ -11,7 +13,7 @@ import lombok.Data;
  * @createTime：2020/8/10 10:38
  */
 @Data
-public class PageInfo {
+public class PageInfo implements Serializable {
     /**
      * @description: 当前页数
      * @author：RenBin

@@ -1,9 +1,10 @@
-package com.ibn.rms.service;
+package com.ibn.rms.ao;
 
-import com.ibn.page.PageInfo;
+import com.github.pagehelper.Page;
 import com.ibn.page.Pagination;
-import com.ibn.rms.domain.UserBaseDTO;
 import com.ibn.rms.exception.IbnException;
+import com.ibn.page.PageInfo;
+import com.ibn.rms.vo.UserBaseVO;
 
 import java.util.List;
 import java.util.Set;
@@ -12,24 +13,24 @@ import java.util.Set;
  * @version 1.0
  * @description:
  * @projectName：ibn-rms
- * @see: com.ibn.rms.service
+ * @see: com.ibn.rms.ao
  * @author： RenBin
- * @createTime：2020/8/10 9:15
+ * @createTime：2020/8/11 10:58
  */
-public interface UserBaseService {
+public interface UserBaseAO {
     /**
      * @description: 添加信息
      * @author：RenBin
      * @createTime：2020/8/10 9:31
      */
-    long save(UserBaseDTO userBaseDTO) throws IbnException;
+    long save(UserBaseVO userBaseVO) throws IbnException;
 
     /**
      * @description: 批量添加
      * @author：RenBin
      * @createTime：2020/8/10 9:31
      */
-    long saveBatch(List<UserBaseDTO> userBaseDTO) throws IbnException;
+    long saveBatch(List<UserBaseVO> userBaseVOList) throws IbnException;
 
     /**
      * @description: 根据ID删除
@@ -50,26 +51,26 @@ public interface UserBaseService {
      * @author：RenBin
      * @createTime：2020/8/10 9:33
      */
-    int modify(UserBaseDTO userBaseDTO) throws IbnException;
+    int modify(UserBaseVO userBaseVO) throws IbnException;
 
     /**
      * @description: 根据条件查询
      * @author：RenBin
      * @createTime：2020/8/10 9:35
      */
-    UserBaseDTO query(Long id) throws IbnException;
+    UserBaseVO query(Long id) throws IbnException;
 
     /**
      * @description: 查询多个
      * @author：RenBin
      * @createTime：2020/8/10 9:36
      */
-    List<UserBaseDTO> queryList(UserBaseDTO userBaseDTO) throws IbnException;
+    List<UserBaseVO> queryList(UserBaseVO userBaseVO) throws IbnException;
 
     /**
      * @description: 分页查询
      * @author：RenBin
      * @createTime：2020/8/10 9:37
      */
-    Pagination<UserBaseDTO> queryPage(UserBaseDTO userBaseDTO, PageInfo pageInfo) throws IbnException;
+    Pagination<UserBaseVO> queryPage(UserBaseVO userBaseVO, PageInfo pageInfo) throws IbnException;
 }

@@ -4,8 +4,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.ibn.page.PageInfo;
+import com.ibn.page.Pagination;
 import com.ibn.rms.domain.UserBaseDTO;
-import com.ibn.rms.page.PageInfo;
 import com.ibn.rms.service.UserBaseService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,8 +28,8 @@ public class UserBaseServiceImplTest {
     public void save() throws Exception{
         UserBaseDTO userBaseDTO = new UserBaseDTO();
         userBaseDTO.setUserId (0L);
-        userBaseDTO.setUsername ("Username");
-        userBaseDTO.setPassword ("Password");
+        userBaseDTO.setUsername ("2Username");
+        userBaseDTO.setPassword ("1Password");
         userBaseDTO.setRegType (1);
         userBaseDTO.setRegTime (0L);
         userBaseDTO.setLastLoginTime (0L);
@@ -93,7 +94,7 @@ public class UserBaseServiceImplTest {
         PageInfo pageInfo = new PageInfo();
         pageInfo.setPageNum(1);
         pageInfo.setPageSize(5);
-        Page<UserBaseDTO> userBaseDTOPagination = userBaseService.queryPage(userBaseDTO, pageInfo);
+        Pagination<UserBaseDTO> userBaseDTOPagination = userBaseService.queryPage(userBaseDTO, pageInfo);
         System.out.println(JSONObject.toJSONString(userBaseDTOPagination));
     }
 

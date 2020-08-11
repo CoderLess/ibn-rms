@@ -3,12 +3,13 @@ package com.ibn.rms.service.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.google.common.collect.Lists;
+import com.ibn.page.PageInfo;
+import com.ibn.page.Pagination;
 import com.ibn.rms.dao.UserBaseDao;
 import com.ibn.rms.domain.UserBaseDTO;
 import com.ibn.rms.entity.UserBaseDO;
 import com.ibn.rms.enumer.ExceptionEnum;
 import com.ibn.rms.exception.IbnException;
-import com.ibn.rms.page.PageInfo;
 import com.ibn.rms.service.UserBaseService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,8 @@ public class UserBaseServiceImpl implements UserBaseService {
         }
         UserBaseDO userBaseDO = new UserBaseDO();
         BeanUtils.copyProperties(userBaseDTO, userBaseDO);
-        return userBaseDao.save(userBaseDO);
+        userBaseDao.save(userBaseDO);
+        return userBaseDO.getId();
     }
 
     @Override
@@ -115,7 +117,7 @@ public class UserBaseServiceImpl implements UserBaseService {
     }
 
     @Override
-    public Page<UserBaseDTO> queryPage(UserBaseDTO userBaseDTO, PageInfo pageInfo) throws IbnException {
+    public Pagination<UserBaseDTO> queryPage(UserBaseDTO userBaseDTO, PageInfo pageInfo) throws IbnException {
         if (null == pageInfo || null == userBaseDTO) {
             throw new IbnException(ExceptionEnum.NUll_PARAM);
         }
@@ -124,15 +126,17 @@ public class UserBaseServiceImpl implements UserBaseService {
         BeanUtils.copyProperties(userBaseDTO, userBaseDO);
         Page<UserBaseDO> userBaseDOPage = userBaseDao.queryPage(userBaseDO);
         if (CollectionUtils.isEmpty(userBaseDOPage)) {
-            return new Page<>();
+            return new Pagination<>(0,0,0,0);
         }
-        Page<UserBaseDTO> userBaseDTOPage = new Page<>(userBaseDOPage.getPageNum(),userBaseDOPage.getPageSize());
-        userBaseDTOPage.setTotal(userBaseDTOPage.getTotal());
-        userBaseDOPage.stream().forEach(curUserBaseDO -> {
+        Pagination<UserBaseDTO> userBaseDTOPagination = new Pagination<>(userBaseDOPage.getPageNum(),
+                userBaseDOPage.getPageSize(),userBaseDOPage.getTotal(),userBaseDOPage.getPages());
+
+        List<UserBaseDTO> userBaseDTOList = userBaseDOPage.stream().map(curUserBaseDO -> {
             UserBaseDTO curUserBaseDTO = new UserBaseDTO();
             BeanUtils.copyProperties(curUserBaseDO, curUserBaseDTO);
-            userBaseDTOPage.add(curUserBaseDTO);
-        });
-        return userBaseDTOPage;
+            return curUserBaseDTO;
+        }).collect(Collectors.toList());
+        userBaseDTOPagination.setList(userBaseDTOList);
+        return userBaseDTOPagination;
     }
 }

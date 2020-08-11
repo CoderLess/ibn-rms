@@ -3,6 +3,7 @@ package com.ibn.config;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ImportResource;
 
 /**
  * @version 1.0
@@ -13,10 +14,11 @@ import org.springframework.context.annotation.Configuration;
  * @createTime：2020/8/10 11:16
  */
 @Configuration
+// mapper文件扫描
 @MapperScan({"com.ibn.rms.dao"})
+// 组件扫描
 @ComponentScan(basePackages = {"com.ibn.rms"})
-//@ImportResource(locations = { "classpath:META-INF/spring/*.xml" })//dubbo发布的接口
-//@PropertySource({""})
+// dubbo接口
+@ImportResource(locations = { "classpath:dubbo/*.xml" })
 public class AutoConfig {
-
 }

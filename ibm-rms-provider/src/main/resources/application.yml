@@ -7,5 +7,5 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
 
 mybatis:
-  enable: true
+  #mybatis mapper配置文件的位置
   mapper-locations: classpath*:mybatis/*Dao.xml
