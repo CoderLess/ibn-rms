@@ -23,12 +23,6 @@ public class UserBaseDO extends BaseDO {
      */
     private Long id;
     /**
-     * @description: 用户ID
-     * @author：RenBin
-     * @createTime：2020/8/11 21:45
-     */
-    private Long userId;
-    /**
      * @description: 用户登录名
      * @author：RenBin
      * @createTime：2020/8/11 21:45
@@ -40,12 +34,6 @@ public class UserBaseDO extends BaseDO {
      * @createTime：2020/8/11 21:45
      */
     private String password;
-    /**
-     * @description: 注册方式
-     * @author：RenBin
-     * @createTime：2020/8/11 21:45
-     */
-    private Integer regType;
     /**
      * @description: 注册时间
      * @author：RenBin

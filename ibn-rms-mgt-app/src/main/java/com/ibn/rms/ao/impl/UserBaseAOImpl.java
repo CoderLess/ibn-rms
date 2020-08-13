@@ -29,14 +29,14 @@ public class UserBaseAOImpl implements UserBaseAO {
     private UserBaseService userBaseService;
 
     @Override
-    public long save(UserBaseVO userBaseVO){
+    public long save(UserBaseVO userBaseVO) {
         UserBaseDTO userBaseDTO = new UserBaseDTO();
         BeanUtils.copyProperties(userBaseVO, userBaseDTO);
         return userBaseService.save(userBaseDTO);
     }
 
     @Override
-    public long saveBatch(List<UserBaseVO> userBaseVOList){
+    public long saveBatch(List<UserBaseVO> userBaseVOList) {
         List<UserBaseDTO> userBaseDTOList = userBaseVOList.stream().map(userBaseVO -> {
             UserBaseDTO userBaseDTO = new UserBaseDTO();
             BeanUtils.copyProperties(userBaseVO, userBaseDTO);
@@ -46,24 +46,24 @@ public class UserBaseAOImpl implements UserBaseAO {
     }
 
     @Override
-    public int remove(Long id){
+    public int remove(Long id) {
         return userBaseService.remove(id);
     }
 
     @Override
-    public int removeBatch(Set<Long> idSet){
+    public int removeBatch(Set<Long> idSet) {
         return userBaseService.removeBatch(idSet);
     }
 
     @Override
-    public int modify(UserBaseVO userBaseVO){
+    public int modify(UserBaseVO userBaseVO) {
         UserBaseDTO userBaseDTO = new UserBaseDTO();
         BeanUtils.copyProperties(userBaseVO, userBaseDTO);
         return userBaseService.modify(userBaseDTO);
     }
 
     @Override
-    public UserBaseVO query(Long id){
+    public UserBaseVO query(Long id) {
         UserBaseDTO userBaseDTO = userBaseService.query(id);
         if (null == userBaseDTO) {
             return null;
@@ -74,7 +74,7 @@ public class UserBaseAOImpl implements UserBaseAO {
     }
 
     @Override
-    public List<UserBaseVO> queryList(UserBaseVO userBaseVO){
+    public List<UserBaseVO> queryList(UserBaseVO userBaseVO) {
         UserBaseDTO userBaseDTO = new UserBaseDTO();
         BeanUtils.copyProperties(userBaseVO, userBaseDTO);
         List<UserBaseDTO> userBaseDTOList = userBaseService.queryList(userBaseDTO);
@@ -87,7 +87,7 @@ public class UserBaseAOImpl implements UserBaseAO {
     }
 
     @Override
-    public Pagination<UserBaseVO> queryPage(UserBaseVO userBaseVO, PageInfo pageInfo){
+    public Pagination<UserBaseVO> queryPage(UserBaseVO userBaseVO, PageInfo pageInfo) {
         UserBaseDTO userBaseDTO = new UserBaseDTO();
         BeanUtils.copyProperties(userBaseVO, userBaseDTO);
         Pagination<UserBaseDTO> userBaseDTOPagination = userBaseService.queryPage(userBaseDTO,pageInfo);

@@ -34,10 +34,8 @@ public class UserBaseServiceImplTest {
     @Test
     public void save() throws Exception{
         UserBaseDTO userBaseDTO = new UserBaseDTO();
-        userBaseDTO.setUserId (0L);
         userBaseDTO.setUsername ("Username");
         userBaseDTO.setPassword ("Password");
-        userBaseDTO.setRegType (1);
         userBaseDTO.setRegTime (0L);
         userBaseDTO.setLastLoginTime (0L);
         userBaseService.save(userBaseDTO);
@@ -49,10 +47,8 @@ public class UserBaseServiceImplTest {
         List<UserBaseDTO> userBaseDTOList = Lists.newArrayList();
         for (int i = 0; i < 10; i++) {
             userBaseDTO= new UserBaseDTO();
-            userBaseDTO.setUserId (0L);
             userBaseDTO.setUsername ("Username"+i);
             userBaseDTO.setPassword ("Password"+i);
-            userBaseDTO.setRegType (1);
             userBaseDTO.setRegTime (0L);
             userBaseDTO.setLastLoginTime (0L);
             userBaseDTOList.add(userBaseDTO);
@@ -64,10 +60,8 @@ public class UserBaseServiceImplTest {
     @Test
     public void modify() throws Exception{
         UserBaseDTO userBaseDTO = new UserBaseDTO();
-        userBaseDTO.setUserId (2L);
         userBaseDTO.setUsername ("modify");
         userBaseDTO.setPassword ("modify");
-        userBaseDTO.setRegType (3);
         userBaseDTO.setRegTime (2L);
         userBaseDTO.setLastLoginTime (2L);
 

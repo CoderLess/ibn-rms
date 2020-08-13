@@ -1,4 +1,4 @@
-package com.ibn.autoconfigure.common;
+package com.ibn.common;
 
 import com.ibn.enumer.HttpStatusEnum;
 import lombok.Data;

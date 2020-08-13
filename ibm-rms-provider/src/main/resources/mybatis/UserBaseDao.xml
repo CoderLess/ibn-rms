@@ -5,10 +5,8 @@
 
     <sql id="baseColumn">
                 `id`,
-                `user_id`,
                 `username`,
                 `password`,
-                `reg_type`,
                 `reg_time`,
                 `last_login_time`
 	</sql>
@@ -16,10 +14,8 @@
     <sql id="UserBaseDO_Columns">
         <trim suffixOverrides=",">
                 <if test="id != null">`id`,</if>
-                <if test="userId != null">`user_id`,</if>
                 <if test="username != null">`username`,</if>
                 <if test="password != null">`password`,</if>
-                <if test="regType != null">`reg_type`,</if>
                 <if test="regTime != null">`reg_time`,</if>
                 <if test="lastLoginTime != null">`last_login_time`,</if>
         </trim>
@@ -28,10 +24,8 @@
     <sql id="UserBaseDO_Values">
         <trim suffixOverrides=",">
                 <if test="id != null">#{id},</if>
-                <if test="userId != null">#{userId},</if>
                 <if test="username != null">#{username},</if>
                 <if test="password != null">#{password},</if>
-                <if test="regType != null">#{regType},</if>
                 <if test="regTime != null">#{regTime},</if>
                 <if test="lastLoginTime != null">#{lastLoginTime},</if>
         </trim>
@@ -41,10 +35,8 @@
         <where>
             <trim suffixOverrides=",">
                 <if test="id != null"> and `id` = #{id}</if>
-                <if test="userId != null"> and `user_id` = #{userId}</if>
                 <if test="username != null"> and `username` = #{username}</if>
                 <if test="password != null"> and `password` = #{password}</if>
-                <if test="regType != null"> and `reg_type` = #{regType}</if>
                 <if test="regTime != null"> and `reg_time` = #{regTime}</if>
                 <if test="lastLoginTime != null"> and `last_login_time` = #{lastLoginTime}</if>
             </trim>
@@ -58,19 +50,15 @@
 
     <insert id="saveBatch" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
         insert into user_base(
-            `user_id`,
             `username`,
             `password`,
-            `reg_type`,
             `reg_time`,
             `last_login_time`)
         values
         <foreach collection="list" index="index" item="item" separator=",">
             (
-                #{item.userId},
                 #{item.username},
                 #{item.password},
-                #{item.regType},
                 #{item.regTime},
                 #{item.lastLoginTime})
         </foreach>
@@ -80,10 +68,8 @@
         update user_base
         <set>
                 <if test="id != null">`id` = #{id},</if>
-                <if test="userId != null">`user_id` = #{userId},</if>
                 <if test="username != null">`username` = #{username},</if>
                 <if test="password != null">`password` = #{password},</if>
-                <if test="regType != null">`reg_type` = #{regType},</if>
                 <if test="regTime != null">`reg_time` = #{regTime},</if>
                 <if test="lastLoginTime != null">`last_login_time` = #{lastLoginTime},</if>
         </set>

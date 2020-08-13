@@ -14,10 +14,8 @@ class IbnRmsMgtAppApplicationTests {
     @Test
     void contextLoads() throws IbnException {
         UserBaseDTO userBaseDTO = new UserBaseDTO();
-        userBaseDTO.setUserId (0L);
         userBaseDTO.setUsername ("4Username");
         userBaseDTO.setPassword ("1Password");
-        userBaseDTO.setRegType (1);
         userBaseDTO.setRegTime (0L);
         userBaseDTO.setLastLoginTime (0L);
         userBaseService.save(userBaseDTO);

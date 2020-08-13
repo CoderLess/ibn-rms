@@ -1,6 +1,6 @@
 package com.ibn.rms.advice;
 
-import com.ibn.autoconfigure.common.ResultInfo;
+import com.ibn.common.ResultInfo;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
