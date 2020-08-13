@@ -8,7 +8,7 @@
     <dubbo:application name="ibm-rms-provider"/>
 
     <!-- 使用zookeeper注册中心暴露服务地址 -->
-    <dubbo:registry address="zookeeper://192.168.0.238:2181" timeout="30000"/>
+    <dubbo:registry address="zookeeper://zookeeper.ibn.local:2181" timeout="30000"/>
 
     <!-- 用dubbo协议在20880端口暴露服务 -->
     <dubbo:protocol name="dubbo" port="20880"/>

@@ -1,5 +1,6 @@
 package com.ibn.rms.dao;
 
+import com.ibn.dao.BaseDao;
 import com.ibn.rms.entity.UserBaseDO;
 
 /**

@@ -1,6 +1,6 @@
 package com.ibn.rms.controller;
 
-import com.ibn.config.common.ResultInfo;
+import com.ibn.autoconfigure.common.ResultInfo;
 import com.ibn.page.PageInfo;
 import com.ibn.page.Pagination;
 import com.ibn.rms.ao.UserBaseAO;
@@ -8,6 +8,7 @@ import com.ibn.rms.vo.UserBaseVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,7 +34,7 @@ public class UserBaseController {
 
     @ApiOperation(value = "保存用户基本信息表", notes = "保存用户基本信息表")
     @PostMapping("save")
-    public ResultInfo<Long> save(UserBaseVO userBaseVO) {
+    public ResultInfo<Long> save(@Validated UserBaseVO userBaseVO) {
         long id = userBaseAO.save(userBaseVO);
         return new ResultInfo<Long>().success(id);
     }

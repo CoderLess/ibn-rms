@@ -1,9 +1,10 @@
-package com.ibn.config.common;
+package com.ibn.autoconfigure.common;
 
 import com.ibn.enumer.HttpStatusEnum;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @version 1.0
@@ -32,6 +33,12 @@ public class ResultInfo<T> implements Serializable {
     public ResultInfo success(String status, String message) {
         this.status = status;
         this.message = message;
+        return this;
+    }
+    public ResultInfo success(Integer status, String message, List<String> errorMessageList) {
+        this.status = status.toString();
+        this.message = message;
+        this.response = (T) errorMessageList;
         return this;
     }
 

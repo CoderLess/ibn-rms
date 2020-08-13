@@ -1,4 +1,4 @@
-package com.ibn.rms.mgtapp;
+package com.ibn.rms;
 
 import com.ibn.rms.domain.UserBaseDTO;
 import com.ibn.rms.exception.IbnException;

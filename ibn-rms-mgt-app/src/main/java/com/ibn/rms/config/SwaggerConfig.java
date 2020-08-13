@@ -1,16 +1,12 @@
-package com.ibn.config;
+package com.ibn.rms.config;
 
 import io.swagger.annotations.ApiOperation;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.ImportResource;
-import org.springframework.stereotype.Component;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.oas.annotations.EnableOpenApi;
-import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
@@ -19,16 +15,14 @@ import springfox.documentation.spring.web.plugins.Docket;
  * @version 1.0
  * @description:
  * @projectName：ibn-rms
- * @see: com.ibn.config
+ * @see: com.ibn.rms.config
  * @author： RenBin
- * @createTime：2020/8/11 10:42
+ * @createTime：2020/8/13 13:38
  */
-@Configuration
+// 开启swagger3的支持
 @EnableOpenApi
-@ComponentScan(basePackages = {"com.ibn.rms"})
-// dubbo配置文件
-@ImportResource(locations = {"classpath:dubbo/*.xml"})
-public class AutoConfig {
+@Configuration
+public class SwaggerConfig {
     /**
      * @description: swagger3
      * @author：RenBin
@@ -48,5 +42,6 @@ public class AutoConfig {
                 .paths(PathSelectors.any())
                 .build();
     }
-
 }
+
+

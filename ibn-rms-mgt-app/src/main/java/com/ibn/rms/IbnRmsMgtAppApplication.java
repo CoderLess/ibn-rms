@@ -1,4 +1,4 @@
-package com.ibn.rms.mgtapp;
+package com.ibn.rms;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
