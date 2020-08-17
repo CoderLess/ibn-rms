@@ -100,4 +100,8 @@
         select <include refid="baseColumn" /> from user_base
         <include refid="queryColumn" />
     </select>
+    <select id="queryByUserName" parameterType="java.lang.String" resultType="com.ibn.rms.entity.UserBaseDO" >
+        select <include refid="baseColumn" /> from user_base
+        where `username` = #{username}
+    </select>
 </mapper>

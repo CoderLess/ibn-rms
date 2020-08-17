@@ -6,8 +6,11 @@ import com.ibn.rms.ao.UserBaseAO;
 import com.ibn.rms.domain.UserBaseDTO;
 import com.ibn.rms.service.UserBaseService;
 import com.ibn.rms.vo.UserBaseVO;
+import com.ibn.rms.vo.UserDetailVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -104,5 +107,14 @@ public class UserBaseAOImpl implements UserBaseAO {
         }).collect(Collectors.toList());
         userBaseVOPagination.setList(userBaseVOList);
         return userBaseVOPagination;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        UserBaseDTO userBaseDTO = userBaseService.queryByUserName(username);
+        if (null == userBaseDTO) {
+            throw new UsernameNotFoundException("用户名/密码错误");
+        }
+        return new UserDetailVO(userBaseDTO);
     }
 }

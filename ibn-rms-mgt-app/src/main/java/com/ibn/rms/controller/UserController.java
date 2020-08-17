@@ -5,7 +5,7 @@ import com.ibn.rms.vo.UserBaseVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,18 +24,20 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = "用户基本信息表操作接口")
 public class UserController {
     @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private PasswordEncoder passwordEncoder;
     @Autowired
-    private UserBaseAO userBaseAO;
+    private UserBaseAO userDetailService;
+
     @GetMapping("index")
     public String index() {
         return "Hello User ~";
     }
+
     @PostMapping("/register")
     @ApiOperation(value = "用戶註冊接口", notes = "用戶註冊接口")
-    public String registerUser(UserBaseVO userBaseVO){
-        userBaseVO.setPassword(bCryptPasswordEncoder.encode(userBaseVO.getPassword()));
-        userBaseAO.save(userBaseVO);
+    public String registerUser(UserBaseVO userBaseVO) {
+        userBaseVO.setPassword(passwordEncoder.encode(userBaseVO.getPassword()));
+        userDetailService.save(userBaseVO);
         return "success";
     }
 }

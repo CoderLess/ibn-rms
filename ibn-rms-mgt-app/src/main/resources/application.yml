@@ -1,0 +1,4 @@
+jwt:
+  secret: ffjaksdfjaklf
+  expiration: 3600000
+  header: JWTHeaderName

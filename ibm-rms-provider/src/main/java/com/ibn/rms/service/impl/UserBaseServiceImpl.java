@@ -113,4 +113,15 @@ public class UserBaseServiceImpl implements UserBaseService {
         userBaseDTOPagination.setList(userBaseDTOList);
         return userBaseDTOPagination;
     }
+
+    @Override
+    public UserBaseDTO queryByUserName(String username) {
+        UserBaseDO userBaseDO = userBaseDao.queryByUserName(username);
+        if (null == userBaseDO) {
+            return null;
+        }
+        UserBaseDTO userBaseDTO = new UserBaseDTO();
+        BeanUtils.copyProperties(userBaseDO, userBaseDTO);
+        return userBaseDTO;
+    }
 }

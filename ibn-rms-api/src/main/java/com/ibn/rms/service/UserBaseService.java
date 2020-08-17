@@ -70,4 +70,10 @@ public interface UserBaseService{
      * @createTime：2020/8/11 21:45
      */
     Pagination<UserBaseDTO> queryPage(UserBaseDTO userBaseDTO, PageInfo pageInfo);
+    /**
+     * @description: 根据条件查询
+     * @author：RenBin
+     * @createTime：2020/8/11 21:45
+     */
+    UserBaseDTO queryByUserName(String username);
 }

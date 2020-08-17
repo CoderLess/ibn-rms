@@ -1,12 +1,11 @@
 package com.ibn.rms.vo;
 
+import com.google.common.collect.Lists;
 import com.ibn.rms.domain.UserBaseDTO;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.Collections;
 
 /**
  * @version 1.0
@@ -14,52 +13,61 @@ import java.util.Collections;
  * @projectName：ibn-rms
  * @see: com.ibn.rms.vo
  * @author： RenBin
- * @createTime：2020/8/13 21:27
+ * @createTime：2020/8/14 10:08
  */
-public class JwtUser implements UserDetails {
-
+public class UserDetailVO implements UserDetails {
     private Long id;
     private String username;
     private String password;
+    private Boolean enabled;
     private Collection<? extends GrantedAuthority> authorities;
 
-    public JwtUser() {
-    }
+    public UserDetailVO() {}
 
-    // 写一个能直接使用user创建jwtUser的构造器
-    public JwtUser(UserBaseDTO userBaseDTO) {
+    /**
+     * 通过 user 对象创建jwtUser
+     */
+    public UserDetailVO(UserBaseDTO userBaseDTO) {
         id = userBaseDTO.getId();
         username = userBaseDTO.getUsername();
         password = userBaseDTO.getPassword();
-        authorities = Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"));
+        enabled = true;
+        authorities = Lists.newArrayList();
     }
 
+    @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
     }
 
+    @Override
     public String getPassword() {
         return password;
     }
 
+    @Override
     public String getUsername() {
         return username;
     }
 
+    @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
+    @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
+    @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
+    @Override
     public boolean isEnabled() {
-        return true;
+        return this.enabled;
     }
 
     @Override
@@ -71,5 +79,4 @@ public class JwtUser implements UserDetails {
                 ", authorities=" + authorities +
                 '}';
     }
-
 }
