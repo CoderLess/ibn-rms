@@ -5,6 +5,7 @@ import com.ibn.rms.filter.JwtAuthenticationTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.*;
+import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -36,38 +37,39 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+        http.csrf().disable().authorizeRequests()
+                .antMatchers("/user/login").permitAll()
                 .and().cors()
                 .and().addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
-                .formLogin()
+//                .formLogin()
                 // 请求成功后的回调
-                .successHandler((request, response, auth) -> response.sendRedirect("/user/index"))
+//                .successHandler((request, response, auth) -> response.sendRedirect("/user/index"))
                 // 请求失败后的回调
-                .failureHandler((req, resp, e) -> {
-                    resp.setContentType("application/json;charset=utf-8");
-                    PrintWriter out = resp.getWriter();
-                    resp.setStatus(401);
-                    Map<String, Object> map = new HashMap<>();
-                    map.put("status", 401);
-                    if (e instanceof LockedException) {
-                        map.put("msg", "账户被锁定，登录失败!");
-                    } else if (e instanceof BadCredentialsException) {
-                        map.put("msg", "账户名或密码输入错误，登录失败!");
-                    } else if (e instanceof DisabledException) {
-                        map.put("msg", "账户被禁用，登录失败!");
-                    } else if (e instanceof AccountExpiredException) {
-                        map.put("msg", "账户已过期，登录失败!");
-                    } else if (e instanceof CredentialsExpiredException) {
-                        map.put("msg", "密码已过期，登录失败!");
-                    } else {
-                        map.put("msg", "登录失败!");
-                    }
-                    ObjectMapper om = new ObjectMapper();
-                    out.write(om.writeValueAsString(map));
-                    out.flush();
-                    out.close();
-                })
-                .and()
+//                .failureHandler((req, resp, e) -> {
+//                    resp.setContentType("application/json;charset=utf-8");
+//                    PrintWriter out = resp.getWriter();
+//                    resp.setStatus(401);
+//                    Map<String, Object> map = new HashMap<>();
+//                    map.put("status", 401);
+//                    if (e instanceof LockedException) {
+//                        map.put("msg", "账户被锁定，登录失败!");
+//                    } else if (e instanceof BadCredentialsException) {
+//                        map.put("msg", "账户名或密码输入错误，登录失败!");
+//                    } else if (e instanceof DisabledException) {
+//                        map.put("msg", "账户被禁用，登录失败!");
+//                    } else if (e instanceof AccountExpiredException) {
+//                        map.put("msg", "账户已过期，登录失败!");
+//                    } else if (e instanceof CredentialsExpiredException) {
+//                        map.put("msg", "密码已过期，登录失败!");
+//                    } else {
+//                        map.put("msg", "登录失败!");
+//                    }
+//                    ObjectMapper om = new ObjectMapper();
+//                    out.write(om.writeValueAsString(map));
+//                    out.flush();
+//                    out.close();
+//                })
+//                .and()
                 // session管理
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
@@ -97,5 +99,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
+    }
+    @Bean(name = BeanIds.AUTHENTICATION_MANAGER)
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
     }
 }

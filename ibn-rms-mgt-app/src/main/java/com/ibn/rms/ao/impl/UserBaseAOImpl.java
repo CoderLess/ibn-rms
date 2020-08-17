@@ -4,12 +4,20 @@ import com.ibn.page.PageInfo;
 import com.ibn.page.Pagination;
 import com.ibn.rms.ao.UserBaseAO;
 import com.ibn.rms.domain.UserBaseDTO;
+import com.ibn.rms.exception.LoginFailedException;
 import com.ibn.rms.service.UserBaseService;
+import com.ibn.rms.util.JwtTokenUtil;
 import com.ibn.rms.vo.UserBaseVO;
 import com.ibn.rms.vo.UserDetailVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -30,6 +38,31 @@ import java.util.stream.Collectors;
 public class UserBaseAOImpl implements UserBaseAO {
     @Autowired
     private UserBaseService userBaseService;
+    @Autowired
+    private AuthenticationManager authenticationManager;
+    @Autowired
+    private UserDetailsService userDetailsService;
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
+
+    /**
+     * 登录认证换取JWT令牌
+     * @return JWT
+     * @param userBaseVO
+     */
+    public String login(UserBaseVO userBaseVO) throws LoginFailedException {
+        try {
+            UsernamePasswordAuthenticationToken token =
+                    new UsernamePasswordAuthenticationToken(userBaseVO.getUsername(), userBaseVO.getPassword());
+            Authentication authentication = authenticationManager.authenticate(token);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        }catch (AuthenticationException e){
+            throw new LoginFailedException("用户名或者密码不正确");
+        }
+
+        UserDetails userDetails = userDetailsService.loadUserByUsername(userBaseVO.getUsername());
+        return jwtTokenUtil.generateToken(userDetails);
+    }
 
     @Override
     public long save(UserBaseVO userBaseVO) {

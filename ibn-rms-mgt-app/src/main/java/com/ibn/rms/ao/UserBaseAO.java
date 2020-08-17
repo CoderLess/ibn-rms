@@ -2,6 +2,7 @@ package com.ibn.rms.ao;
 
 import com.ibn.page.PageInfo;
 import com.ibn.page.Pagination;
+import com.ibn.rms.exception.LoginFailedException;
 import com.ibn.rms.vo.UserBaseVO;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
@@ -72,4 +73,11 @@ public interface UserBaseAO extends UserDetailsService {
      * @createTime：2020/8/10 9:37
      */
     Pagination<UserBaseVO> queryPage(UserBaseVO userBaseVO, PageInfo pageInfo);
+    /**
+     * @description: 用户登入
+     * @author：RenBin
+     * @createTime：2020/8/17 22:34
+     * @param userBaseVO
+     */
+    String login(UserBaseVO userBaseVO) throws LoginFailedException;
 }

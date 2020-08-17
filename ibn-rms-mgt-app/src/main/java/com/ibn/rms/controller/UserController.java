@@ -26,7 +26,7 @@ public class UserController {
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
-    private UserBaseAO userDetailService;
+    private UserBaseAO userBaseAO;
 
     @GetMapping("index")
     public String index() {
@@ -34,10 +34,16 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    @ApiOperation(value = "用戶註冊接口", notes = "用戶註冊接口")
-    public String registerUser(UserBaseVO userBaseVO) {
+    @ApiOperation(value = "用户注册接口", notes = "用户注册接口")
+    public String register(UserBaseVO userBaseVO) {
         userBaseVO.setPassword(passwordEncoder.encode(userBaseVO.getPassword()));
-        userDetailService.save(userBaseVO);
+        userBaseAO.save(userBaseVO);
         return "success";
+    }
+    @PostMapping("/login")
+    @ApiOperation(value = "用户登录接口", notes = "用户登录接口")
+    public String login(UserBaseVO userBaseVO) {
+        String login = userBaseAO.login(userBaseVO);
+        return login;
     }
 }
