@@ -1,6 +1,5 @@
 package com.ibn.rms.constant;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 /**
@@ -13,7 +12,4 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class SecurityConstant {
-    public static final String secret = null;
-    public static final Long expiration = null;
-    public static final String header = null;
 }
