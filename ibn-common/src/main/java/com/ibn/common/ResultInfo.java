@@ -18,9 +18,9 @@ import java.util.List;
 public class ResultInfo<T> implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private String status;
+    private Integer status;
     private String message;
-    private T response;
+    private T data;
 
     @SuppressWarnings("rawtypes")
     public ResultInfo success() {
@@ -30,29 +30,29 @@ public class ResultInfo<T> implements Serializable {
     }
 
     @SuppressWarnings("rawtypes")
-    public ResultInfo success(String status, String message) {
+    public ResultInfo success(Integer status, String message) {
         this.status = status;
         this.message = message;
         return this;
     }
     public ResultInfo success(Integer status, String message, List<String> errorMessageList) {
-        this.status = status.toString();
-        this.message = message;
-        this.response = (T) errorMessageList;
-        return this;
-    }
-
-    public ResultInfo<T> success(T response) {
-        this.status = HttpStatusEnum.OK.getCode();
-        this.message ="OK";
-        this.response = response;
-        return this;
-    }
-
-    public ResultInfo<T> success(String status, String message, T response) {
         this.status = status;
         this.message = message;
-        this.response = response;
+        this.data = (T) errorMessageList;
+        return this;
+    }
+
+    public ResultInfo<T> success(T data) {
+        this.status = HttpStatusEnum.OK.getCode();
+        this.message ="OK";
+        this.data = data;
+        return this;
+    }
+
+    public ResultInfo<T> success(Integer status, String message, T data) {
+        this.status = status;
+        this.message = message;
+        this.data = data;
         return this;
     }
 
@@ -64,7 +64,7 @@ public class ResultInfo<T> implements Serializable {
     }
 
     @SuppressWarnings("rawtypes")
-    public ResultInfo error(String status, String message) {
+    public ResultInfo error(Integer status, String message) {
         this.status = status;
         this.message = message;
         return this;

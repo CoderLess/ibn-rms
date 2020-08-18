@@ -1,5 +1,6 @@
 package com.ibn.rms.controller;
 
+import com.ibn.common.ResultInfo;
 import com.ibn.rms.ao.UserBaseAO;
 import com.ibn.rms.vo.UserBaseVO;
 import io.swagger.annotations.Api;
@@ -8,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
  * @createTime：2020/8/13 9:30
  */
 @RestController
-@RequestMapping("user")
 @Api(tags = "用户基本信息表操作接口")
 public class UserController {
     @Autowired
@@ -42,8 +41,8 @@ public class UserController {
     }
     @PostMapping("/login")
     @ApiOperation(value = "用户登录接口", notes = "用户登录接口")
-    public String login(UserBaseVO userBaseVO) {
+    public ResultInfo<String> login(UserBaseVO userBaseVO) {
         String login = userBaseAO.login(userBaseVO);
-        return login;
+        return new ResultInfo<String>().success(login);
     }
 }

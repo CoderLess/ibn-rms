@@ -55,7 +55,7 @@ public class GlobalControllerExceptionAdvice {
     // <4> 接住上面没有接住的异常
     @ExceptionHandler(Exception.class)
     public ResultInfo testExceptionHandler(Exception e) {
-        return new ResultInfo().success(HttpStatus.BAD_REQUEST.toString(), e.getMessage());
+        return new ResultInfo().success(HttpStatus.BAD_REQUEST.value(), e.getMessage());
     }
 
 }
