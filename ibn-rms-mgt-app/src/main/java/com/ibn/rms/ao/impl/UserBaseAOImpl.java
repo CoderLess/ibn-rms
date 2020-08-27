@@ -9,6 +9,8 @@ import com.ibn.rms.service.UserBaseService;
 import com.ibn.rms.util.JwtTokenUtil;
 import com.ibn.rms.vo.UserBaseVO;
 import com.ibn.rms.vo.UserDetailVO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -45,6 +47,7 @@ public class UserBaseAOImpl implements UserBaseAO {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
+    private static final Logger logger = LoggerFactory.getLogger(UserBaseAOImpl.class);
     /**
      * 登录认证换取JWT令牌
      * @return JWT
@@ -57,6 +60,8 @@ public class UserBaseAOImpl implements UserBaseAO {
             Authentication authentication = authenticationManager.authenticate(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }catch (AuthenticationException e){
+            String msg = String.format("用户认证失败，用户名：%s,密码:%s", userBaseVO.getUsername(), userBaseVO.getPassword());
+            logger.error(msg, e);
             throw new LoginFailedException("用户名或者密码不正确");
         }
 

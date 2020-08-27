@@ -7,9 +7,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @version 1.0
@@ -41,8 +39,20 @@ public class UserController {
     }
     @PostMapping("/login")
     @ApiOperation(value = "用户登录接口", notes = "用户登录接口")
-    public ResultInfo<String> login(UserBaseVO userBaseVO) {
-        String login = userBaseAO.login(userBaseVO);
+    public ResultInfo<String> login(@RequestBody UserBaseVO userBaseVO) {
+        String login = null;
+        try {
+            login = userBaseAO.login(userBaseVO);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return new ResultInfo<String>().success(login);
+    }
+
+    @GetMapping("/userInfo")
+    @ApiOperation(value = "用户相关信息", notes = "用户相关信息")
+    public ResultInfo<Object> userInfo(@RequestHeader("${jwt.header}") String token) {
+
+        return new ResultInfo<>().success(token);
     }
 }
