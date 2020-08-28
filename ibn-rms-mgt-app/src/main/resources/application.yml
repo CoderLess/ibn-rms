@@ -1,4 +1,4 @@
 jwt:
   secret: ffjaksdfjaklf
   expiration: 3600000
-  header: JWTToken
+  header: JWT-Token

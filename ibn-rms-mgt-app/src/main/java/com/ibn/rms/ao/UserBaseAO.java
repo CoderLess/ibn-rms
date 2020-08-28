@@ -79,5 +79,5 @@ public interface UserBaseAO extends UserDetailsService {
      * @createTime：2020/8/17 22:34
      * @param userBaseVO
      */
-    String login(UserBaseVO userBaseVO) throws LoginFailedException;
+    String login(UserBaseVO userBaseVO);
 }

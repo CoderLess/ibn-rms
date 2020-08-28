@@ -40,13 +40,8 @@ public class UserController {
     @PostMapping("/login")
     @ApiOperation(value = "用户登录接口", notes = "用户登录接口")
     public ResultInfo<String> login(@RequestBody UserBaseVO userBaseVO) {
-        String login = null;
-        try {
-            login = userBaseAO.login(userBaseVO);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return new ResultInfo<String>().success(login);
+        String token = userBaseAO.login(userBaseVO);
+        return new ResultInfo<String>().success(token);
     }
 
     @GetMapping("/userInfo")

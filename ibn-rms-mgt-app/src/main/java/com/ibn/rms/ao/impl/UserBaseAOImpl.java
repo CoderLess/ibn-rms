@@ -4,7 +4,6 @@ import com.ibn.page.PageInfo;
 import com.ibn.page.Pagination;
 import com.ibn.rms.ao.UserBaseAO;
 import com.ibn.rms.domain.UserBaseDTO;
-import com.ibn.rms.exception.LoginFailedException;
 import com.ibn.rms.service.UserBaseService;
 import com.ibn.rms.util.JwtTokenUtil;
 import com.ibn.rms.vo.UserBaseVO;
@@ -16,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -53,17 +51,11 @@ public class UserBaseAOImpl implements UserBaseAO {
      * @return JWT
      * @param userBaseVO
      */
-    public String login(UserBaseVO userBaseVO) throws LoginFailedException {
-        try {
-            UsernamePasswordAuthenticationToken token =
-                    new UsernamePasswordAuthenticationToken(userBaseVO.getUsername(), userBaseVO.getPassword());
-            Authentication authentication = authenticationManager.authenticate(token);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-        }catch (AuthenticationException e){
-            String msg = String.format("用户认证失败，用户名：%s,密码:%s", userBaseVO.getUsername(), userBaseVO.getPassword());
-            logger.error(msg, e);
-            throw new LoginFailedException("用户名或者密码不正确");
-        }
+    public String login(UserBaseVO userBaseVO) {
+        UsernamePasswordAuthenticationToken token =
+                new UsernamePasswordAuthenticationToken(userBaseVO.getUsername(), userBaseVO.getPassword());
+        Authentication authentication = authenticationManager.authenticate(token);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(userBaseVO.getUsername());
         return jwtTokenUtil.generateToken(userDetails);
@@ -151,7 +143,7 @@ public class UserBaseAOImpl implements UserBaseAO {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserBaseDTO userBaseDTO = userBaseService.queryByUserName(username);
         if (null == userBaseDTO) {
-            throw new UsernameNotFoundException("用户名/密码错误");
+            throw new UsernameNotFoundException("没有找到指定用户");
         }
         return new UserDetailVO(userBaseDTO);
     }
