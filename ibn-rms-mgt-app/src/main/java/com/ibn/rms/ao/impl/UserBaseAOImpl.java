@@ -1,10 +1,11 @@
 package com.ibn.rms.ao.impl;
 
-import com.ibn.page.PageInfo;
-import com.ibn.page.Pagination;
+import com.google.common.collect.Lists;
 import com.ibn.rms.ao.UserBaseAO;
 import com.ibn.rms.domain.UserBaseDTO;
+import com.ibn.rms.domain.UserRoleDTO;
 import com.ibn.rms.service.UserBaseService;
+import com.ibn.rms.service.UserRoleService;
 import com.ibn.rms.util.JwtTokenUtil;
 import com.ibn.rms.vo.UserBaseVO;
 import com.ibn.rms.vo.UserDetailVO;
@@ -22,8 +23,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -43,6 +44,8 @@ public class UserBaseAOImpl implements UserBaseAO {
     @Autowired
     private UserDetailsService userDetailsService;
     @Autowired
+    private UserRoleService userRoleService;
+    @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
     private static final Logger logger = LoggerFactory.getLogger(UserBaseAOImpl.class);
@@ -54,13 +57,43 @@ public class UserBaseAOImpl implements UserBaseAO {
     public String login(UserBaseVO userBaseVO) {
         UsernamePasswordAuthenticationToken token =
                 new UsernamePasswordAuthenticationToken(userBaseVO.getUsername(), userBaseVO.getPassword());
+        // 校验用户名密码是否匹配
         Authentication authentication = authenticationManager.authenticate(token);
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
+        // 利用用户信息生成token
         UserDetails userDetails = userDetailsService.loadUserByUsername(userBaseVO.getUsername());
-        return jwtTokenUtil.generateToken(userDetails);
+        return jwtTokenUtil.generateToken((UserDetailVO) userDetails);
+    }
+    /**
+     * @description: 获取用户的角色信息
+     * @author：RenBin
+     * @createTime：2020/8/29 12:12
+     */
+    @Override
+    public List<Long> userRole(Long userId) {
+        UserRoleDTO userRoleDTO = new UserRoleDTO();
+        userRoleDTO.setUserId(userId);
+        List<UserRoleDTO> userRoleDTOList = userRoleService.queryList(userRoleDTO);
+        if (CollectionUtils.isEmpty(userRoleDTOList)) {
+            return Lists.newArrayList();
+        }
+        return userRoleDTOList.stream().map(curUserRoleDTO -> curUserRoleDTO.getId()).collect(Collectors.toList());
+    }
+    /**
+     * @description: 根据userId获取用户信息
+     * @author：RenBin
+     * @createTime：2020/8/29 12:32
+     */
+    @Override
+    public UserBaseDTO queryUser(Long userId) {
+        return userBaseService.query(userId);
     }
 
+    /**
+     * @description: 保存用户基本信息
+     * @author：RenBin
+     * @createTime：2020/8/29 12:11
+     */
     @Override
     public long save(UserBaseVO userBaseVO) {
         UserBaseDTO userBaseDTO = new UserBaseDTO();
@@ -68,77 +101,11 @@ public class UserBaseAOImpl implements UserBaseAO {
         return userBaseService.save(userBaseDTO);
     }
 
-    @Override
-    public long saveBatch(List<UserBaseVO> userBaseVOList) {
-        List<UserBaseDTO> userBaseDTOList = userBaseVOList.stream().map(userBaseVO -> {
-            UserBaseDTO userBaseDTO = new UserBaseDTO();
-            BeanUtils.copyProperties(userBaseVO, userBaseDTO);
-            return userBaseDTO;
-        }).collect(Collectors.toList());
-        return userBaseService.saveBatch(userBaseDTOList);
-    }
-
-    @Override
-    public int remove(Long id) {
-        return userBaseService.remove(id);
-    }
-
-    @Override
-    public int removeBatch(Set<Long> idSet) {
-        return userBaseService.removeBatch(idSet);
-    }
-
-    @Override
-    public int modify(UserBaseVO userBaseVO) {
-        UserBaseDTO userBaseDTO = new UserBaseDTO();
-        BeanUtils.copyProperties(userBaseVO, userBaseDTO);
-        return userBaseService.modify(userBaseDTO);
-    }
-
-    @Override
-    public UserBaseVO query(Long id) {
-        UserBaseDTO userBaseDTO = userBaseService.query(id);
-        if (null == userBaseDTO) {
-            return null;
-        }
-        UserBaseVO userBaseVO = new UserBaseVO();
-        BeanUtils.copyProperties(userBaseDTO, userBaseVO);
-        return userBaseVO;
-    }
-
-    @Override
-    public List<UserBaseVO> queryList(UserBaseVO userBaseVO) {
-        UserBaseDTO userBaseDTO = new UserBaseDTO();
-        BeanUtils.copyProperties(userBaseVO, userBaseDTO);
-        List<UserBaseDTO> userBaseDTOList = userBaseService.queryList(userBaseDTO);
-        List<UserBaseVO> userBaseVOList = userBaseDTOList.stream().map(curUserBaseDTO -> {
-            UserBaseVO curUserBaseVO = new UserBaseVO();
-            BeanUtils.copyProperties(curUserBaseDTO, curUserBaseVO);
-            return curUserBaseVO;
-        }).collect(Collectors.toList());
-        return userBaseVOList;
-    }
-
-    @Override
-    public Pagination<UserBaseVO> queryPage(UserBaseVO userBaseVO, PageInfo pageInfo) {
-        UserBaseDTO userBaseDTO = new UserBaseDTO();
-        BeanUtils.copyProperties(userBaseVO, userBaseDTO);
-        Pagination<UserBaseDTO> userBaseDTOPagination = userBaseService.queryPage(userBaseDTO,pageInfo);
-        if (null != userBaseDTOPagination && CollectionUtils.isEmpty(userBaseDTOPagination.getList())) {
-            return new Pagination<>(0,0,0,0);
-        }
-        Pagination<UserBaseVO> userBaseVOPagination = new Pagination<>(userBaseDTOPagination.getPageNum(),
-                userBaseDTOPagination.getPageSize(),userBaseDTOPagination.getTotal(),userBaseDTOPagination.getPages());
-
-        List<UserBaseVO> userBaseVOList = userBaseDTOPagination.getList().stream().map(curUserBaseDTO -> {
-            UserBaseVO curUserBaseVO = new UserBaseVO();
-            BeanUtils.copyProperties(curUserBaseDTO, curUserBaseVO);
-            return curUserBaseVO;
-        }).collect(Collectors.toList());
-        userBaseVOPagination.setList(userBaseVOList);
-        return userBaseVOPagination;
-    }
-
+    /**
+     * @description: spring security校验用户
+     * @author：RenBin
+     * @createTime：2020/8/29 11:37
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserBaseDTO userBaseDTO = userBaseService.queryByUserName(username);

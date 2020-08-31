@@ -2,6 +2,7 @@ package com.ibn.rms.vo;
 
 import com.google.common.collect.Lists;
 import com.ibn.rms.domain.UserBaseDTO;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -15,14 +16,13 @@ import java.util.Collection;
  * @author： RenBin
  * @createTime：2020/8/14 10:08
  */
+@Data
 public class UserDetailVO implements UserDetails {
     private Long id;
     private String username;
     private String password;
     private Boolean enabled;
     private Collection<? extends GrantedAuthority> authorities;
-
-    public UserDetailVO() {}
 
     /**
      * 通过 user 对象创建jwtUser
@@ -40,15 +40,6 @@ public class UserDetailVO implements UserDetails {
         return authorities;
     }
 
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return username;
-    }
 
     @Override
     public boolean isAccountNonExpired() {
@@ -68,15 +59,5 @@ public class UserDetailVO implements UserDetails {
     @Override
     public boolean isEnabled() {
         return this.enabled;
-    }
-
-    @Override
-    public String toString() {
-        return "JwtUser{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", authorities=" + authorities +
-                '}';
     }
 }

@@ -14,7 +14,10 @@
     <dubbo:protocol name="dubbo" port="20880"/>
 
     <!-- 声明需要暴露的服务接口 -->
+    <!--    用户基本信息-->
     <dubbo:service interface="com.ibn.rms.service.UserBaseService" ref="userBaseService"/>
+    <!--    用户角色信息-->
+    <dubbo:service interface="com.ibn.rms.service.UserRoleService" ref="userRoleService"/>
 
     <!-- 和本地bean一样实现服务 -->
 <!--    <bean id="userBaseService" class="com.ibn.rms.service.impl.UserBaseServiceImpl"/>-->

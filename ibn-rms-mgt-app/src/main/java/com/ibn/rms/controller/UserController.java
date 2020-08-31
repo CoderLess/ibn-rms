@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+
 /**
  * @version 1.0
  * @description:
@@ -19,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @Api(tags = "用户基本信息表操作接口")
-public class UserController {
+public class UserController extends BaseController {
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
@@ -43,11 +46,16 @@ public class UserController {
         String token = userBaseAO.login(userBaseVO);
         return new ResultInfo<String>().success(token);
     }
-
+    /**
+     * @description: 这个接口调用次数比较频繁，每次刷新页面都会的调用
+     * @author：RenBin
+     * @createTime：2020/8/29 14:41
+     */
     @GetMapping("/userInfo")
     @ApiOperation(value = "用户相关信息", notes = "用户相关信息")
-    public ResultInfo<Object> userInfo(@RequestHeader("${jwt.header}") String token) {
-
-        return new ResultInfo<>().success(token);
+    public ResultInfo<Object> userInfo(HttpServletRequest request) {
+        Long userId = this.getUserId(request);
+        List<Long> roleList = userBaseAO.userRole(userId);
+        return new ResultInfo<>().success(roleList);
     }
 }

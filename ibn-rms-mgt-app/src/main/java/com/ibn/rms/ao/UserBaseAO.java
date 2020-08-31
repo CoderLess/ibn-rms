@@ -2,6 +2,7 @@ package com.ibn.rms.ao;
 
 import com.ibn.page.PageInfo;
 import com.ibn.page.Pagination;
+import com.ibn.rms.domain.UserBaseDTO;
 import com.ibn.rms.exception.LoginFailedException;
 import com.ibn.rms.vo.UserBaseVO;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -26,58 +27,24 @@ public interface UserBaseAO extends UserDetailsService {
     long save(UserBaseVO userBaseVO);
 
     /**
-     * @description: 批量添加
-     * @author：RenBin
-     * @createTime：2020/8/10 9:31
-     */
-    long saveBatch(List<UserBaseVO> userBaseVOList);
-
-    /**
-     * @description: 根据ID删除
-     * @author：RenBin
-     * @createTime：2020/8/10 9:32
-     */
-    int remove(Long id);
-
-    /**
-     * @description: 根据ID批量删除
-     * @author：RenBin
-     * @createTime：2020/8/10 9:32
-     */
-    int removeBatch(Set<Long> idSet);
-
-    /**
-     * @description: 根据ID更新
-     * @author：RenBin
-     * @createTime：2020/8/10 9:33
-     */
-    int modify(UserBaseVO userBaseVO);
-
-    /**
-     * @description: 根据条件查询
-     * @author：RenBin
-     * @createTime：2020/8/10 9:35
-     */
-    UserBaseVO query(Long id);
-
-    /**
-     * @description: 查询多个
-     * @author：RenBin
-     * @createTime：2020/8/10 9:36
-     */
-    List<UserBaseVO> queryList(UserBaseVO userBaseVO);
-
-    /**
-     * @description: 分页查询
-     * @author：RenBin
-     * @createTime：2020/8/10 9:37
-     */
-    Pagination<UserBaseVO> queryPage(UserBaseVO userBaseVO, PageInfo pageInfo);
-    /**
      * @description: 用户登入
      * @author：RenBin
      * @createTime：2020/8/17 22:34
      * @param userBaseVO
      */
     String login(UserBaseVO userBaseVO);
+
+    /**
+     * @description: 获取用户角色信息
+     * @author：RenBin
+     * @createTime：2020/8/29 12:11
+     */
+    List<Long> userRole(Long userId);
+
+    /**
+     * @description: 根据userid获取用户信息
+     * @author：RenBin
+     * @createTime：2020/8/29 12:31
+     */
+    UserBaseDTO queryUser(Long userId);
 }

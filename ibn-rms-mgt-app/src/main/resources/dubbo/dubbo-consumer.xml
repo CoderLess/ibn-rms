@@ -11,5 +11,9 @@
     <dubbo:registry address="zookeeper://zookeeper.ibn.local:2181" timeout="120000"/>
 
     <!-- 生成远程服务代理，可以和本地bean一样使用 -->
+    <!--    用户基本信息-->
     <dubbo:reference id="userBaseService" interface="com.ibn.rms.service.UserBaseService" />
+    <!--    用户角色信息-->
+    <dubbo:reference id="userRoleService" interface="com.ibn.rms.service.UserRoleService" />
+
 </beans>

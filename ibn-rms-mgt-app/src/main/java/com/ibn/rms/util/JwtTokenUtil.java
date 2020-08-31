@@ -1,5 +1,6 @@
 package com.ibn.rms.util;
 
+import com.ibn.rms.vo.UserDetailVO;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -31,20 +32,22 @@ public class JwtTokenUtil {
 
 
     /**
-     * 生成token令牌
-     *
-     * @param userDetails 用户
-     * @return 令token牌
+     * @description: 生成token令牌
+     * @author：RenBin
+     * @createTime：2020/8/29 11:32
      */
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(UserDetailVO userDetailVO) {
         Map<String, Object> claims = new HashMap<>(2);
-        claims.put("sub", userDetails.getUsername());
+        claims.put("sub", userDetailVO.getId());
         claims.put("created", new Date());
-
         return generateToken(claims);
     }
-
-    public Long getUserIdFromToken(String token) {
+    /**
+     * @description: 从token中获取用户id
+     * @author：RenBin
+     * @createTime：2020/8/29 12:07
+     */
+    public Long getUserId(String token) {
         Long userId;
         try {
             Claims claims = getClaimsFromToken(token);

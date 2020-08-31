@@ -66,7 +66,7 @@ public class GlobalControllerExceptionAdvice {
         return new ResultInfo().success(HttpStatus.BAD_REQUEST.value(), BAD_REQUEST_MSG, collect);
     }
     // 接住上面没有接住的异常
-    @ExceptionHandler(BadCredentialsException.class)
+    @ExceptionHandler(Exception.class)
     public ResultInfo testExceptionHandler(Exception e) {
         return new ResultInfo().error(HttpStatus.BAD_REQUEST.value(), e.getMessage());
     }

@@ -1,7 +1,9 @@
 package com.ibn.rms.filter;
 
 import com.ibn.rms.ao.UserBaseAO;
+import com.ibn.rms.domain.UserBaseDTO;
 import com.ibn.rms.util.JwtTokenUtil;
+import com.ibn.rms.vo.UserDetailVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -35,11 +37,11 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
         String jwtToken = request.getHeader(jwtTokenUtil.getHeader());
         if(!StringUtils.isEmpty(jwtToken)){
-            String username = jwtTokenUtil.getUsernameFromToken(jwtToken);
-
-            if(username != null &&
+            Long userId = jwtTokenUtil.getUserId(jwtToken);
+            if(userId != null &&
                     SecurityContextHolder.getContext().getAuthentication() == null){
-                UserDetails userDetails = userBaseAO.loadUserByUsername(username);
+                UserBaseDTO userBaseDTO = userBaseAO.queryUser(userId);
+                UserDetails userDetails = new UserDetailVO(userBaseDTO);
                 if(jwtTokenUtil.validateToken(jwtToken,userDetails)){
                     //给使用该JWT令牌的用户进行授权
                     UsernamePasswordAuthenticationToken authenticationToken

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ibn.rms.dao.UserRoleDao">
+
+    <sql id="baseColumn">
+                `id`,
+                `user_id`,
+                `role_id`
+	</sql>
+
+    <sql id="UserRoleDO_Columns">
+        <trim suffixOverrides=",">
+                <if test="id != null">`id`,</if>
+                <if test="userId != null">`user_id`,</if>
+                <if test="roleId != null">`role_id`,</if>
+        </trim>
+    </sql>
+
+    <sql id="UserRoleDO_Values">
+        <trim suffixOverrides=",">
+                <if test="id != null">#{id},</if>
+                <if test="userId != null">#{userId},</if>
+                <if test="roleId != null">#{roleId},</if>
+        </trim>
+    </sql>
+
+    <sql id="queryColumn">
+        <where>
+            <trim suffixOverrides=",">
+                <if test="id != null"> and `id` = #{id}</if>
+                <if test="userId != null"> and `user_id` = #{userId}</if>
+                <if test="roleId != null"> and `role_id` = #{roleId}</if>
+            </trim>
+        </where>
+    </sql>
+
+    <insert id="save" parameterType="com.ibn.rms.entity.UserRoleDO" useGeneratedKeys="true" keyProperty="id">
+        insert into user_role (<include refid="UserRoleDO_Columns"/>)
+        values(<include refid="UserRoleDO_Values"/>)
+    </insert>
+
+    <insert id="saveBatch" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        insert into user_role(
+            `user_id`,
+            `role_id`)
+        values
+        <foreach collection="list" index="index" item="item" separator=",">
+            (
+                #{item.userId},
+                #{item.roleId})
+        </foreach>
+    </insert>
+
+    <update id="modify" parameterType="com.ibn.rms.entity.UserRoleDO">
+        update user_role
+        <set>
+                <if test="id != null">`id` = #{id},</if>
+                <if test="userId != null">`user_id` = #{userId},</if>
+                <if test="roleId != null">`role_id` = #{roleId},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="remove">
+		delete from user_role where id = #{value}
+	</delete>
+
+    <delete id="removeBatch">
+        delete from user_role where id in
+        <foreach item="id" collection="collection" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="query" resultType="com.ibn.rms.entity.UserRoleDO">
+        select <include refid="baseColumn" /> from user_role where id = #{value}
+    </select>
+
+    <select id="queryList" parameterType="com.ibn.rms.entity.UserRoleDO" resultType="com.ibn.rms.entity.UserRoleDO" >
+        select <include refid="baseColumn" /> from user_role
+        <include refid="queryColumn" />
+    </select>
+
+    <select id="queryPage" parameterType="com.ibn.rms.entity.UserRoleDO" resultType="com.ibn.rms.entity.UserRoleDO" >
+        select <include refid="baseColumn" /> from user_role
+        <include refid="queryColumn" />
+    </select>
+</mapper>
