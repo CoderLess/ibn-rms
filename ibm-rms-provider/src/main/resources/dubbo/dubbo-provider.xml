@@ -18,6 +18,8 @@
     <dubbo:service interface="com.ibn.rms.service.UserBaseService" ref="userBaseService"/>
     <!--    用户角色信息-->
     <dubbo:service interface="com.ibn.rms.service.UserRoleService" ref="userRoleService"/>
+    <!--    菜单信息-->
+    <dubbo:service interface="com.ibn.rms.service.MenuBaseService" ref="menuBaseService"/>
 
     <!-- 和本地bean一样实现服务 -->
 <!--    <bean id="userBaseService" class="com.ibn.rms.service.impl.UserBaseServiceImpl"/>-->

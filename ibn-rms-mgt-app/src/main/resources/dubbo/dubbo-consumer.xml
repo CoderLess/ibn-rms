@@ -15,5 +15,7 @@
     <dubbo:reference id="userBaseService" interface="com.ibn.rms.service.UserBaseService" />
     <!--    用户角色信息-->
     <dubbo:reference id="userRoleService" interface="com.ibn.rms.service.UserRoleService" />
+    <!--    菜单信息-->
+    <dubbo:reference id="menuBaseService" interface="com.ibn.rms.service.MenuBaseService" />
 
 </beans>
