@@ -96,6 +96,7 @@ public class UserRoleServiceImplTest {
     @Test
     public void queryList() throws Exception{
         UserRoleDTO userRoleDTO = new UserRoleDTO();
+        userRoleDTO.setId(12L);
         List<UserRoleDTO> userRoleDTOList = userRoleService.queryList(userRoleDTO);
         System.out.println(JSONObject.toJSONString(userRoleDTOList));
     }
