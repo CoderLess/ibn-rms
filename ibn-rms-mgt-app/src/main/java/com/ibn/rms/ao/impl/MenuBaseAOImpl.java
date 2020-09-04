@@ -30,11 +30,11 @@ public class MenuBaseAOImpl implements MenuBaseAO {
     private static final Logger logger = LoggerFactory.getLogger(MenuBaseAOImpl.class);
 
     @Override
-    public List<MenuBaseDTO> queryMenuBaseList(MenuBaseDTO menuBaseDTO) {
+    public List<MenuBaseDTO> queryMenuBaseList() {
         try {
-            return menuBaseService.queryList(menuBaseDTO);
+            return menuBaseService.queryList();
         } catch (IbnException e) {
-            String msg = String.format("查询菜单相关信息失败：%s", JSONObject.toJSONString(menuBaseDTO));
+            String msg = String.format("查询菜单相关信息失败");
             logger.error(msg, e);
         }
         return Lists.newArrayList();

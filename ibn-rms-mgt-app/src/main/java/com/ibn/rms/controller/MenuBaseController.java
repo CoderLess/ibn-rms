@@ -31,8 +31,8 @@ public class MenuBaseController extends BaseController {
     @GetMapping("list")
     public ResultInfo<Object> queryMenu() {
         MenuBaseDTO menuBaseDTO = new MenuBaseDTO();
-        menuBaseDTO.setId(1L);
-        List<MenuBaseDTO> menuBaseDTOList = menuBaseAO.queryMenuBaseList(menuBaseDTO);
+        menuBaseDTO.setHidden(0);
+        List<MenuBaseDTO> menuBaseDTOList = menuBaseAO.queryMenuBaseList();
         return new ResultInfo<>().success(menuBaseDTOList);
     }
 }

@@ -72,4 +72,10 @@ public interface MenuBaseService{
      * @createTime：2020/8/5 13:45
      */
     Pagination<MenuBaseDTO> queryPage(MenuBaseDTO menuBaseDTO, PageInfo pageInfo) throws IbnException;
+    /**
+     * @description: 查询菜单
+     * @author：RenBin
+     * @createTime：2020/9/4 21:07
+     */
+    List<MenuBaseDTO> queryList() throws IbnException;
 }

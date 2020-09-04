@@ -3,6 +3,8 @@ package com.ibn.rms.domain;
 import com.ibn.domain.BaseDTO;
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * @version 1.0
  * @description: 
@@ -51,5 +53,11 @@ public class MenuBaseDTO extends BaseDTO {
      * @author：RenBin
      * @createTime：2020/8/5 13:45
      */
-    private String hidden;
+    private Integer hidden;
+    /**
+     * @description: 子节点
+     * @author：RenBin
+     * @createTime：2020/9/4 20:55
+     */
+    private List<MenuBaseDTO> children;
 }

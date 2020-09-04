@@ -51,5 +51,5 @@ public class MenuBaseDO extends BaseDO {
      * @author：RenBin
      * @createTime：2020/8/5 13:45
      */
-    private String hidden;
+    private Integer hidden;
 }

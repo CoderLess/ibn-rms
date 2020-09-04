@@ -30,7 +30,7 @@ public class MenuBaseServiceImplTest {
         menuBaseDTO.setPath ("Path");
         menuBaseDTO.setTitle ("Title");
         menuBaseDTO.setIcon ("Icon");
-        menuBaseDTO.setHidden ("Hidden");
+        menuBaseDTO.setHidden (0);
         menuBaseService.save(menuBaseDTO);
     }
 
@@ -44,7 +44,7 @@ public class MenuBaseServiceImplTest {
             menuBaseDTO.setPath ("Path"+i);
             menuBaseDTO.setTitle ("Title"+i);
             menuBaseDTO.setIcon ("Icon"+i);
-            menuBaseDTO.setHidden ("Hidden"+i);
+            menuBaseDTO.setHidden (i);
             menuBaseDTOList.add(menuBaseDTO);
         }
 
@@ -58,7 +58,7 @@ public class MenuBaseServiceImplTest {
         menuBaseDTO.setPath ("modify");
         menuBaseDTO.setTitle ("modify");
         menuBaseDTO.setIcon ("modify");
-        menuBaseDTO.setHidden ("modify");
+        menuBaseDTO.setHidden (0);
 
         menuBaseDTO.setId (10L);
         menuBaseService.modify(menuBaseDTO);
@@ -99,6 +99,11 @@ public class MenuBaseServiceImplTest {
         MenuBaseDTO menuBaseDTO = new MenuBaseDTO();
         menuBaseDTO.setId(1L);
         List<MenuBaseDTO> menuBaseDTOList = menuBaseService.queryList(menuBaseDTO);
+        System.out.println(JSONObject.toJSONString(menuBaseDTOList));
+    }
+    @Test
+    public void queryList2() throws Exception{
+        List<MenuBaseDTO> menuBaseDTOList = menuBaseService.queryList();
         System.out.println(JSONObject.toJSONString(menuBaseDTOList));
     }
 }

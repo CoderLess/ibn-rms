@@ -18,5 +18,5 @@ public interface MenuBaseAO {
      * @author：RenBin
      * @createTime：2020/9/1 11:47
      */
-    List<MenuBaseDTO> queryMenuBaseList(MenuBaseDTO menuBaseDTO);
+    List<MenuBaseDTO> queryMenuBaseList();
 }

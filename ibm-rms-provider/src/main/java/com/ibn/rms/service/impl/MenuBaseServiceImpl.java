@@ -139,4 +139,41 @@ public class MenuBaseServiceImpl implements MenuBaseService {
         menuBaseDTOPagination.setList(menuBaseDTOList);
         return menuBaseDTOPagination;
     }
+
+    @Override
+    public List<MenuBaseDTO> queryList() throws IbnException {
+        MenuBaseDO menuBaseDO = new MenuBaseDO();
+        menuBaseDO.setParentId(0L);
+        List<MenuBaseDO> menuBaseDOList = menuBaseDao.queryList(menuBaseDO);
+        if (CollectionUtils.isEmpty(menuBaseDOList)) {
+            return Lists.newArrayList();
+        }
+        List<MenuBaseDTO> menuBaseDTOList = Lists.newArrayList();
+        MenuBaseDTO menuBaseDTO;
+        for (MenuBaseDO curMenuBaseDO : menuBaseDOList) {
+            menuBaseDTO = new MenuBaseDTO();
+            BeanUtils.copyProperties(curMenuBaseDO, menuBaseDTO);
+            menuBaseDTOList.add(this.getMenu(menuBaseDTO));
+        }
+        return menuBaseDTOList;
+    }
+    /**
+     * @description: 递归获取菜单
+     * @author：RenBin
+     * @createTime：2020/9/4 21:20
+     */
+    private MenuBaseDTO getMenu(MenuBaseDTO menuBaseDTO) throws IbnException {
+        MenuBaseDTO menuBaseQueryDTO = new MenuBaseDTO();
+        menuBaseQueryDTO.setParentId(menuBaseDTO.getId());
+        List<MenuBaseDTO> menuBaseDTOList = this.queryList(menuBaseQueryDTO);
+        if (CollectionUtils.isEmpty(menuBaseDTOList)) {
+            menuBaseDTO.setChildren(Lists.newArrayList());
+            return menuBaseDTO;
+        }
+        menuBaseDTO.setChildren(menuBaseDTOList);
+        for (MenuBaseDTO curMenuBaseDTO : menuBaseDTOList) {
+            this.getMenu(curMenuBaseDTO);
+        }
+        return menuBaseDTO;
+    }
 }
