@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ibn.rms.dao.FileDataDao">
+
+    <sql id="baseColumn">
+                `id`,
+                `data`
+	</sql>
+
+    <sql id="FileDataDO_Columns">
+        <trim suffixOverrides=",">
+                <if test="id != null">`id`,</if>
+                <if test="data != null">`data`,</if>
+        </trim>
+    </sql>
+
+    <sql id="FileDataDO_Values">
+        <trim suffixOverrides=",">
+                <if test="id != null">#{id},</if>
+                <if test="data != null">#{data},</if>
+        </trim>
+    </sql>
+
+    <sql id="queryColumn">
+        <where>
+            <trim suffixOverrides=",">
+                <if test="id != null"> and `id` = #{id}</if>
+                <if test="data != null"> and `data` = #{data}</if>
+            </trim>
+        </where>
+    </sql>
+
+    <insert id="save" parameterType="com.ibn.rms.entity.FileDataDO" useGeneratedKeys="true" keyProperty="id">
+        insert into file_data (<include refid="FileDataDO_Columns"/>)
+        values(<include refid="FileDataDO_Values"/>)
+    </insert>
+
+    <insert id="saveBatch" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        insert into file_data(
+            `data`)
+        values
+        <foreach collection="list" index="index" item="item" separator=",">
+            (
+                #{item.data})
+        </foreach>
+    </insert>
+
+    <update id="modify" parameterType="com.ibn.rms.entity.FileDataDO">
+        update file_data
+        <set>
+                <if test="id != null">`id` = #{id},</if>
+                <if test="data != null">`data` = #{data},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="remove">
+		delete from file_data where id = #{value}
+	</delete>
+
+    <delete id="removeBatch">
+        delete from file_data where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="query" resultType="com.ibn.rms.entity.FileDataDO">
+        select <include refid="baseColumn" /> from file_data where id = #{value}
+    </select>
+
+    <select id="queryList" parameterType="com.ibn.rms.entity.FileDataDO" resultType="com.ibn.rms.entity.FileDataDO" >
+        select <include refid="baseColumn" /> from file_data
+        <include refid="queryColumn" />
+    </select>
+
+    <select id="queryPage" parameterType="com.ibn.rms.entity.FileDataDO" resultType="com.ibn.rms.entity.FileDataDO" >
+        select <include refid="baseColumn" /> from file_data
+        <include refid="queryColumn" />
+    </select>
+</mapper>

@@ -41,7 +41,7 @@ public class MenuBaseServiceImpl implements MenuBaseService {
         MenuBaseDO menuBaseDO = new MenuBaseDO();
         BeanUtils.copyProperties(menuBaseDTO, menuBaseDO);
         menuBaseDao.save(menuBaseDO);
-        return menuBaseDTO.getId();
+        return menuBaseDO.getId();
     }
 
     @Override

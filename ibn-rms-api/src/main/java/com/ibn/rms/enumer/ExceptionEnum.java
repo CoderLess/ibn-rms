@@ -9,7 +9,9 @@ package com.ibn.rms.enumer;
  * @createTime：2020/8/10 10:13
  */
 public enum ExceptionEnum {
-    NUll_PARAM("参数为空","10001");
+    NUll_PARAM("参数为空","10001"),
+    ERROR_PARAM("参数异常","10002"),
+    QUERY_DATA("查询数据库异常","20001");
     /**
      * @description: 消息
      * @author：RenBin

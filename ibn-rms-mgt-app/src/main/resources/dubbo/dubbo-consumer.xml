@@ -17,5 +17,11 @@
     <dubbo:reference id="userRoleService" interface="com.ibn.rms.service.UserRoleService" />
     <!--    菜单信息-->
     <dubbo:reference id="menuBaseService" interface="com.ibn.rms.service.MenuBaseService" />
+    <!--    目录信息-->
+    <dubbo:reference id="catalogBaseService" interface="com.ibn.rms.service.CatalogBaseService" />
+    <!--    文件基本信息-->
+    <dubbo:reference id="fileBaseService" interface="com.ibn.rms.service.FileBaseService" />
+    <!--    文件数据信息-->
+    <dubbo:reference id="fileDataService" interface="com.ibn.rms.service.FileDataService" />
 
 </beans>
